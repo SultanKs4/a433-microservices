@@ -1,0 +1,30 @@
+# user version 3.9 of docker-compose
+version: '3.9'
+
+# define services
+services:
+  # define the item-app service
+  item-app:
+    # use image item-app:v1 from github container registry
+    image: ghcr.io/sultanks4/item-app:v1
+    # map port 80 on the host to port 8080 in the container
+    ports:
+      - 80:8080
+    # restart the container if it fails
+    restart: on-failure
+    # wait for the item-db service to start before starting the item-app service
+    depends_on:
+      - item-db
+
+  # define the item-db service
+  item-db:
+    # use image mongo:3 from docker hub
+    image: mongo:3
+    # mount the app-db volume to the /data/db directory in the container
+    volumes:
+      - app-db:/data/db
+
+# define volumes
+volumes:
+  # define the app-db volume
+  app-db:
