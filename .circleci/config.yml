@@ -1,0 +1,42 @@
+# set version
+version: 2.1
+
+# define orbs
+orbs:
+  docker: circleci/docker@2.4.0 # Use the latest version of docker orb
+
+# define jobs
+jobs:
+  # lint dockerfile job
+  lint-dockerfile:
+    # define executor use hadolint
+    executor: docker/machine
+    # define steps
+    steps:
+      - checkout # Check out code from the configured version control system.
+      - docker/hadolint: # Run hadolint to lint Dockerfiles.
+          dockerfiles: Dockerfile # Specify Dockerfiles to lint.
+          trusted-registries: 'docker.io,gcr.io' # Specify trusted registries.
+
+  # build job
+  build-app-karsajobs-ui:
+    # define executor
+    executor: docker/machine
+    # define steps
+    steps:
+      - checkout
+      - run:
+          name: Build and push image to GitHub Packages
+          command: ./build_push_image_karsajobs-ui.sh
+
+# define workflows
+workflows:
+  # lint-build workflow:
+  lint-build:
+    # define jobs for workflow contains lint and build to github packages
+    jobs:
+      - lint-dockerfile
+      - build-app-karsajobs-ui:
+          requires:
+            - lint-dockerfile
+    
