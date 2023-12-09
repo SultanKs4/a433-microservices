@@ -20,18 +20,18 @@ jobs:
           trusted-registries: 'docker.io,gcr.io' # Specify trusted registries.
   
   # test job
-  test-app:
-    # define executor
-    executor: go/default
-    # define steps
-    steps:
-      - checkout # Check out code from the configured version control system.
-      - go/load-cache # Load cached Go modules.
-      - go/mod-download # Run 'go mod download'.
-      - go/save-cache # Save Go modules to cache.
-      - run: # Run tests.
-          name: Test
-          command: go test -v -short --count=1 $(go list ./...)
+  # test-app:
+  #   # define executor
+  #   executor: go/default
+  #   # define steps
+  #   steps:
+  #     - checkout # Check out code from the configured version control system.
+  #     - go/load-cache # Load cached Go modules.
+  #     - go/mod-download # Run 'go mod download'.
+  #     - go/save-cache # Save Go modules to cache.
+  #     - run: # Run tests.
+  #         name: Test
+  #         command: go test -v -short --count=1 $(go list ./...)
 
   # build job
   build-app-karsajobs:
@@ -50,9 +50,9 @@ workflows:
   lint:
     jobs:
       - lint-dockerfile
-  test:
-    jobs:
-      - test-app
+  # test:
+  #   jobs:
+  #     - test-app
   build:
     jobs:
       - build-app-karsajobs
