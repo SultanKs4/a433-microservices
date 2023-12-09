@@ -27,7 +27,7 @@ jobs:
       - checkout
       - run:
           name: Build and push image to GitHub Packages
-          command: ./build_push_image_karsajobs-ui.sh
+          command: ./build_push_image_karsajobs_ui.sh
 
 # define workflows
 workflows:
